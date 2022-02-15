@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Brandt Marek</title>
+
+    <link href="css/video.css" rel="stylesheet" type="text/css">
+	<script src="js/three.js"></script>
+	<script src="js/my_scene.js"></script>
+
+    <meta charset="utf-8">
+
+
+<script type="text/javascript">
+
+	var canvas;
+	var ctx;
+	var video;
+    var fi = 0;
+	var dfi = 0.01;
+	var shouldRotate = false;
+
+	function animate() {
+
+        	//...
+		//animacja - zmiany w obrazie
+		//...
+		if(shouldRotate == true) fi = (fi + dfi) % Math.PI;
+
+		ctx.translate(canvas.width/2, canvas.height/2);
+		ctx.rotate(fi);
+		ctx.translate(-canvas.width/2, -canvas.height/2)
+
+		ctx.clearRect(0,0,canvas.width, canvas.height);
+		ctx.fillStyle = ('rgb(255,0,0)');
+		ctx.fillRect(12,12,canvas.width-24, canvas.height-24);
+		ctx.drawImage(video,20,20, canvas.width-40, canvas.height-40);
+		requestAnimationFrame(animate); //funkcja animate() bedzie wywolywana 60 razy na sekunde
+
+		ctx.translate(canvas.width/2, canvas.height/2);
+		ctx.rotate(-fi);
+		ctx.translate(-canvas.width/2, -canvas.height/2)
+
+		ctx.fillText("Marek Brandt", canvas.width-70, canvas.height-3);
+	}
+
+	function rotation() {
+		if(shouldRotate == false) shouldRotate = true;
+		else shouldRotate = false;
+	}
+
+	function reverse_rotation() {
+		dfi *= -1;
+	}
+
+
+	function load() {
+
+	        canvas = document.getElementById("myCanvas");		
+        	ctx = canvas.getContext('2d');
+			video =document.getElementById('myVideo');
+			canvas.addEventListener('dblclick', rotation);
+			canvas.addEventListener('mouseover', reverse_rotation);
+	        animate();
+	}
+
+</script>
+
+
+</head>
+
+<body onload = "load(); init();"> 
+
+	<h1>Multimedia i interfejsy - HTML5</h1>
+
+	<div id="div_video">  
+		<p>video</p> 
+		<video id = "myVideo" width = "320" height = "240" controls = "controls" src = "video.mp4" autoplay muted loop> </video>
+	</div>
+
+	<div id="div_canvas" >	
+		<p>canvas</p>
+		<canvas id="myCanvas"></canvas>
+	</div>
+
+	<div id="div_webgl">
+              
+	</div>
+
+</body> 
+</html>
+ 
